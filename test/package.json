@@ -1,12 +1,12 @@
 {
-  "author": "chrisdias",
-  "dependencies": {
-    "jscs": "2.3.2"
-  },
+  "name": "jscstest",
+  "version": "1.0.0",
   "description": "jscs test application",
   "license": "MIT",
+  "author": "chrisdias",
   "main": "index.js",
-  "name": "jscstest",
   "scripts": {},
-  "version": "1.0.0"
+  "dependencies": {
+    "jscs": "2.3.2"
+  }
 }
