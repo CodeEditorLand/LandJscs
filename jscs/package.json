@@ -1,26 +1,10 @@
 {
-  "name": "jscs",
-  "displayName": "JSCS Linting (deprecated)",
-  "version": "0.1.11",
-  "description": "A JSCS Linter for Visual Studio Code",
-  "homepage": "https://github.com/Microsoft/vscode-jscs/blob/master/README.md",
+  "activationEvents": [
+    "onLanguage:javascript"
+  ],
+  "author": "Microsoft Corporation",
   "bugs": {
     "url": "https://github.com/Microsoft/vscode-jscs/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Microsoft/vscode-jscs.git"
-  },
-  "license": "SEE LICENSE IN LICENSE.md",
-  "author": "Microsoft Corporation",
-  "publisher": "ms-vscode",
-  "main": "./out/extension",
-  "scripts": {
-    "compile": "tsc -p ./",
-    "postinstall": "node ./node_modules/vscode/bin/install",
-    "update-vscode": "node ./node_modules/vscode/bin/install",
-    "vscode:prepublish": "cd ../jscs-server && npm run compile && cd ../jscs && tsc -p ./",
-    "watch": "tsc -watch -p ./"
   },
   "contributes": {
     "configuration": {
@@ -56,19 +40,35 @@
       }
     ]
   },
-  "activationEvents": [
-    "onLanguage:javascript"
-  ],
   "dependencies": {
-    "vscode-languageclient": "^2.0.0"
+    "vscode-languageclient": "2.0.0"
   },
+  "description": "A JSCS Linter for Visual Studio Code",
   "devDependencies": {
-    "typescript": "^4.0.5",
-    "vscode": "^0.11.x"
+    "typescript": "4.0.5",
+    "vscode": "0.11.x"
   },
-  "icon": "JSCS_icon.png",
+  "displayName": "JSCS Linting (deprecated)",
   "galleryBanner": {
     "color": "#37699A",
     "theme": "dark"
-  }
+  },
+  "homepage": "https://github.com/Microsoft/vscode-jscs/blob/master/README.md",
+  "icon": "JSCS_icon.png",
+  "license": "SEE LICENSE IN LICENSE.md",
+  "main": "./out/extension",
+  "name": "jscs",
+  "publisher": "ms-vscode",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Microsoft/vscode-jscs.git"
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "postinstall": "node ./node_modules/vscode/bin/install",
+    "update-vscode": "node ./node_modules/vscode/bin/install",
+    "vscode:prepublish": "cd ../jscs-server && npm run compile && cd ../jscs && tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "version": "0.1.11"
 }
