@@ -23,7 +23,7 @@
         "Linters"
     ],
     "engines": {
-        "vscode": "^0.10.7"
+        "vscode": "0.10.7"
     },
     "activationEvents": [
         "onLanguage:javascript"
@@ -71,10 +71,10 @@
         "update-vscode": "node ./node_modules/vscode/bin/install"
     },
     "devDependencies": {
-        "typescript": "^4.0.5",
-        "vscode": "^0.11.x"
+        "typescript": "4.0.5",
+        "vscode": "0.11.x"
     },
     "dependencies": {
-        "vscode-languageclient": "^2.0.0"
+        "vscode-languageclient": "2.0.0"
     }
 }

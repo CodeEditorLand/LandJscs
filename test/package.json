@@ -12,6 +12,6 @@
   "author": "chrisdias",
   "license": "MIT",
   "dependencies": {
-    "jscs": "^2.3.2"
+    "jscs": "2.3.2"
   }
 }
