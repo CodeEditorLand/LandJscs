@@ -2,11 +2,16 @@
   "name": "jscstest",
   "version": "1.0.0",
   "description": "jscs test application",
-  "license": "MIT",
-  "author": "chrisdias",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "jscs"
+  ],
+  "author": "chrisdias",
+  "license": "MIT",
   "dependencies": {
-    "jscs": "2.3.2"
+    "jscs": "^2.3.2"
   }
 }
