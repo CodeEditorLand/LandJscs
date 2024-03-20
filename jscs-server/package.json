@@ -1,29 +1,37 @@
 {
 	"name": "jscs-server",
-	"version": "0.1.4",
+	"version": "0.0.1",
+	"private": false,
 	"description": "JSCS Server",
-	"author": "Microsoft Corporation",
-	"license": "MIT",
+	"homepage": "https://github.com/CodeEditorLand/Foundation#readme",
+	"bugs": {
+		"url": "https://github.com/CodeEditorLand/Foundation/issues"
+	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/Microsoft/vscode-jscs.git"
+		"url": "git+https://github.com/CodeEditorLand/Foundation.git"
 	},
-	"bugs": {
-		"url": "https://github.com/Microsoft/vscode-jscs/issues"
+	"license": "SEE LICENSE IN LICENSE",
+	"author": {
+		"name": "Playform",
+		"email": "Hello@Playform.Cloud",
+		"url": "https://playform.cloud"
 	},
-	"engines": {
-		"node": "*"
+	"type": "module",
+	"scripts": {
+		"compile": "installServerIntoExtension ../jscs ./package.json ./src/tsconfig.json && tsc -p ./src",
+		"prepublishOnly": "TypeScriptESBuild 'Source/**/*.ts'",
+		"watch": "installServerIntoExtension ../jscs ./package.json ./src/tsconfig.json && tsc --watch -p ./src"
 	},
-	"private": true,
 	"dependencies": {
 		"vscode-languageserver": "9.0.1"
 	},
 	"devDependencies": {
 		"copyfiles": "2.4.1",
-		"typescript": "5.4.2"
+		"typescript": "5.4.2",
+		"typescript-esbuild": "latest"
 	},
-	"scripts": {
-		"compile": "installServerIntoExtension ../jscs ./package.json ./src/tsconfig.json && tsc -p ./src",
-		"watch": "installServerIntoExtension ../jscs ./package.json ./src/tsconfig.json && tsc --watch -p ./src"
+	"publishConfig": {
+		"access": "public"
 	}
 }
