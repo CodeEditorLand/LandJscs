@@ -1,33 +1,7 @@
 {
-	"name": "jscs",
-	"displayName": "JSCS Linting (deprecated)",
-	"version": "0.0.1",
-	"private": false,
-	"description": "A JSCS Linter for Visual Studio Code",
-	"homepage": "https://github.com/CodeEditorLand/Foundation#readme",
-	"bugs": {
-		"url": "https://github.com/CodeEditorLand/Foundation/issues"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/CodeEditorLand/Foundation.git"
-	},
-	"license": "SEE LICENSE IN LICENSE",
-	"author": {
-		"name": "Playform",
-		"email": "Hello@Playform.Cloud",
-		"url": "https://playform.cloud"
-	},
-	"type": "module",
-	"main": "./out/extension",
-	"scripts": {
-		"compile": "tsc -p ./",
-		"postinstall": "node ./node_modules/vscode/bin/install",
-		"prepublishOnly": "TypeScriptESBuild 'Source/**/*.ts'",
-		"update-vscode": "node ./node_modules/vscode/bin/install",
-		"vscode:prepublish": "cd ../jscs-server && npm run compile && cd ../jscs && tsc -p ./",
-		"watch": "tsc -watch -p ./"
-	},
+	"activationEvents": [
+		"onLanguage:javascript"
+	],
 	"contributes": {
 		"configuration": {
 			"properties": {
@@ -62,23 +36,30 @@
 			}
 		]
 	},
-	"activationEvents": [
-		"onLanguage:javascript"
-	],
 	"dependencies": {
 		"vscode-languageclient": "9.0.1"
 	},
+	"description": "A JSCS Linter for Visual Studio Code",
 	"devDependencies": {
 		"typescript": "5.4.2",
 		"typescript-esbuild": "0.4.5",
 		"vscode": "0.11.x"
 	},
-	"publishConfig": {
-		"access": "public"
-	},
-	"icon": "JSCS_icon.png",
+	"displayName": "JSCS Linting (deprecated)",
 	"galleryBanner": {
 		"color": "#37699A",
 		"theme": "dark"
-	}
+	},
+	"icon": "JSCS_icon.png",
+	"main": "./out/extension",
+	"name": "jscs",
+	"scripts": {
+		"compile": "tsc -p ./",
+		"postinstall": "node ./node_modules/vscode/bin/install",
+		"prepublishOnly": "TypeScriptESBuild 'Source/**/*.ts'",
+		"update-vscode": "node ./node_modules/vscode/bin/install",
+		"vscode:prepublish": "cd ../jscs-server && npm run compile && cd ../jscs && tsc -p ./",
+		"watch": "tsc -watch -p ./"
+	},
+	"type": "module"
 }
