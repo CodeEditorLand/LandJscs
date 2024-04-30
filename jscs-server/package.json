@@ -1,29 +1,38 @@
 {
 	"name": "jscs-server",
-	"version": "0.1.4",
+	"version": "0.0.1",
+	"private": false,
 	"description": "JSCS Server",
-	"author": "Microsoft Corporation",
-	"license": "MIT",
+	"keywords": [
+		"land"
+	],
+	"homepage": "HTTPS://GitHub.Com/CodeEditorLand/LandJSCS#readme",
+	"bugs": {
+		"url": "HTTPS://GitHub.Com/CodeEditorLand/LandJSCS/issues"
+	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/Microsoft/vscode-jscs.git"
+		"url": "git+HTTPS://github.com/CodeEditorLand/LandJSCS.git"
 	},
-	"bugs": {
-		"url": "https://github.com/Microsoft/vscode-jscs/issues"
+	"license": "SEE LICENSE IN LICENSE",
+	"author": {
+		"name": "🌆 — Land —",
+		"email": "Land@PlayForm.Cloud",
+		"url": "HTTPS://Land.PlayForm.Cloud"
 	},
-	"engines": {
-		"node": "*"
-	},
-	"private": true,
-	"dependencies": {
-		"vscode-languageserver": "^2.0.0"
-	},
-	"devDependencies": {
-		"copyfiles": "^0.2.1",
-		"typescript": "^1.8.10"
-	},
+	"type": "module",
 	"scripts": {
+		"Document": "Document 'Source/**/*.ts'",
 		"compile": "installServerIntoExtension ../jscs ./package.json ./src/tsconfig.json && tsc -p ./src",
-		"watch": "installServerIntoExtension ../jscs ./package.json ./src/tsconfig.json && tsc --watch -p ./src"
+		"prepublishOnly": "Build 'Source/**/*.ts'"
+	},
+	"dependencies": {},
+	"devDependencies": {
+		"@playform/build": "0.0.7",
+		"@playform/document": "0.0.6",
+		"copyfiles": "^0.2.1"
+	},
+	"publishConfig": {
+		"access": "public"
 	}
 }
