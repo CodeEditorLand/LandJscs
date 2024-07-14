@@ -1,11 +1,11 @@
 {
-	"name": "jscs-server",
-	"description": "JSCS Server",
-	"scripts": {
-		"compile": "installServerIntoExtension ../jscs ./package.json ./src/tsconfig.json && tsc -p ./src"
-	},
 	"dependencies": {},
+	"description": "JSCS Server",
 	"devDependencies": {
 		"copyfiles": "^0.2.1"
+	},
+	"name": "jscs-server",
+	"scripts": {
+		"compile": "installServerIntoExtension ../jscs ./package.json ./src/tsconfig.json && tsc -p ./src"
 	}
 }
