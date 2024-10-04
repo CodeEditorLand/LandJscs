@@ -1,20 +1,21 @@
 /*---------------------------------------------------------
  * Copyright (C) Microsoft Corporation. All rights reserved.
  *--------------------------------------------------------*/
-'use strict';
+"use strict";
 
-import * as server from 'vscode-languageserver';
-import fs = require('fs');
-import path = require('path');
+import * as server from "vscode-languageserver";
+
+import fs = require("fs");
+import path = require("path");
 
 interface JSCSError {
-	additional: any,
-	column: number,
-	filename: string,
-	fixed: any,
-	line: number,
-	message: string,
-	rule: string
+	additional: any;
+	column: number;
+	filename: string;
+	fixed: any;
+	line: number;
+	message: string;
+	rule: string;
 }
 
 interface Settings {
@@ -24,27 +25,29 @@ interface Settings {
 		configuration: any;
 		disableIfNoConfig: boolean;
 		displaySeverity: server.DiagnosticSeverity;
-	}
+	};
 }
-
 
 let configCache = {
 	filePath: <string>null,
-	configuration: <any>null
-}
+	configuration: <any>null,
+};
 
 let settings: Settings = null;
 let options: {} = null;
 let linter: any = null;
 let configLib: any = null;
-let connection: server.IConnection = server.createConnection(process.stdin, process.stdout);
+let connection: server.IConnection = server.createConnection(
+	process.stdin,
+	process.stdout,
+);
 let documents: server.TextDocuments = new server.TextDocuments();
 
 function flushConfigCache() {
 	configCache = {
 		filePath: null,
-		configuration: null
-	}
+		configuration: null,
+	};
 }
 
 function validateSingle(document: server.TextDocument): void {
@@ -57,7 +60,7 @@ function validateSingle(document: server.TextDocument): void {
 
 function validateMany(documents: server.TextDocument[]): void {
 	let tracker = new server.ErrorMessageTracker();
-	documents.forEach(document => {
+	documents.forEach((document) => {
 		try {
 			validate(document);
 		} catch (err) {
@@ -68,28 +71,24 @@ function validateMany(documents: server.TextDocument[]): void {
 }
 
 function getConfiguration(filePath: string): any {
-
 	if (configCache.configuration && configCache.filePath === filePath) {
 		return configCache.configuration;
 	}
 
 	configCache = {
 		filePath: filePath,
-		configuration: configLib.load(false, filePath)
-	}
+		configuration: configLib.load(false, filePath),
+	};
 
 	return configCache.configuration;
 }
 
 function validate(document: server.TextDocument): void {
-
 	try {
-
 		let checker = new linter();
 		let fileContents = document.getText();
 		let uri = document.uri;
 		let fsPath = server.Files.uriToFilePath(uri);
-
 
 		let config = getConfiguration(fsPath);
 
@@ -101,7 +100,7 @@ function validate(document: server.TextDocument): void {
 			options = settings.jscs.configuration;
 		} else if (settings.jscs.preset) {
 			options = {
-				"preset": settings.jscs.preset
+				"preset": settings.jscs.preset,
 			};
 		} else {
 			// TODO provide some sort of warning that there is no config
@@ -122,15 +121,14 @@ function validate(document: server.TextDocument): void {
 		if (errors.length > 0) {
 			errors.forEach((e) => {
 				diagnostics.push(makeDiagnostic(e));
-			})
+			});
 		}
 
 		//return connection.sendDiagnostics({ uri, diagnostics });
 		connection.sendDiagnostics({ uri, diagnostics });
-
 	} catch (err) {
 		let message: string = null;
-		if (typeof err.message === 'string' || err.message instanceof String) {
+		if (typeof err.message === "string" || err.message instanceof String) {
 			message = <string>err.message;
 			throw new Error(message);
 		}
@@ -139,7 +137,6 @@ function validate(document: server.TextDocument): void {
 }
 
 function makeDiagnostic(e: JSCSError): server.Diagnostic {
-
 	let res: server.Diagnostic;
 
 	res = {
@@ -150,24 +147,24 @@ function makeDiagnostic(e: JSCSError): server.Diagnostic {
 		range: {
 			start: {
 				line: e.line - 1,
-				character: e.column
+				character: e.column,
 			},
 			end: {
 				line: e.line - 1,
-				character: Number.MAX_VALUE
-			}
+				character: Number.MAX_VALUE,
+			},
 		},
 		code: e.rule,
-		source: 'JSCS'
+		source: "JSCS",
 	};
 	return res;
 }
 
 function getMessage(err: any, document: server.TextDocument): string {
 	let result: string = null;
-	if (typeof err.message === 'string' || err.message instanceof String) {
+	if (typeof err.message === "string" || err.message instanceof String) {
 		result = <string>err.message;
-		result = result.replace(/\r?\n/g, ' ');
+		result = result.replace(/\r?\n/g, " ");
 	} else {
 		result = `An unknown error occured while validating file: ${server.Files.uriToFilePath(document.uri)}`;
 	}
@@ -183,30 +180,53 @@ documents.onDidChangeContent((event) => {
 	validateSingle(event.document);
 });
 
-connection.onInitialize((params): Thenable<server.InitializeResult | server.ResponseError<server.InitializeError>> => {
-	let rootPath = params.rootPath;
+connection.onInitialize(
+	(
+		params,
+	): Thenable<
+		server.InitializeResult | server.ResponseError<server.InitializeError>
+	> => {
+		let rootPath = params.rootPath;
 
-	return server.Files.resolveModule(rootPath, 'jscs').then((value) => {
-		linter = value;
-		return server.Files.resolveModule(rootPath, 'jscs/lib/cli-config').then((value) => {
-			configLib = value;
+		return server.Files.resolveModule(rootPath, "jscs").then(
+			(value) => {
+				linter = value;
+				return server.Files.resolveModule(
+					rootPath,
+					"jscs/lib/cli-config",
+				).then(
+					(value) => {
+						configLib = value;
 
-
-			return { capabilities: { textDocumentSync: documents.syncKind } };
-		}, (error) => {
-			return Promise.reject(
-				new server.ResponseError<server.InitializeError>(99,
-					'Failed to load jscs/lib/cli-config library. Please install jscs in your workspace folder using \'npm install jscs\' and then press Retry.',
-					{ retry: true }));
-		});
-	}, (error) => {
-		return Promise.reject(
-			new server.ResponseError<server.InitializeError>(99,
-				'Failed to load jscs library. Please install jscs in your workspace folder using \'npm install jscs\' and then press Retry.',
-				{ retry: true }));
-	});
-
-})
+						return {
+							capabilities: {
+								textDocumentSync: documents.syncKind,
+							},
+						};
+					},
+					(error) => {
+						return Promise.reject(
+							new server.ResponseError<server.InitializeError>(
+								99,
+								"Failed to load jscs/lib/cli-config library. Please install jscs in your workspace folder using 'npm install jscs' and then press Retry.",
+								{ retry: true },
+							),
+						);
+					},
+				);
+			},
+			(error) => {
+				return Promise.reject(
+					new server.ResponseError<server.InitializeError>(
+						99,
+						"Failed to load jscs library. Please install jscs in your workspace folder using 'npm install jscs' and then press Retry.",
+						{ retry: true },
+					),
+				);
+			},
+		);
+	},
+);
 
 connection.onDidChangeConfiguration((params) => {
 	flushConfigCache();
@@ -215,7 +235,7 @@ connection.onDidChangeConfiguration((params) => {
 });
 
 connection.onDidChangeWatchedFiles((params) => {
-    flushConfigCache();
+	flushConfigCache();
 	validateMany(documents.all());
 });
 
