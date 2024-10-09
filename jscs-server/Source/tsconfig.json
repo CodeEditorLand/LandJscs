@@ -6,7 +6,5 @@
 		"sourceMap": true,
 		"outDir": "../../jscs/server"
 	},
-	"exclude": [
-		"node_modules"
-	]
+	"exclude": ["node_modules"]
 }
