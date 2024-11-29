@@ -10,20 +10,30 @@ import path = require("path");
 
 interface JSCSError {
 	additional: any;
+
 	column: number;
+
 	filename: string;
+
 	fixed: any;
+
 	line: number;
+
 	message: string;
+
 	rule: string;
 }
 
 interface Settings {
 	jscs: {
 		enable: boolean;
+
 		preset: string;
+
 		configuration: any;
+
 		disableIfNoConfig: boolean;
+
 		displaySeverity: server.DiagnosticSeverity;
 	};
 }
@@ -73,6 +83,7 @@ function validateMany(documents: server.TextDocument[]): void {
 			tracker.add(getMessage(err, document));
 		}
 	});
+
 	tracker.sendErrors(connection);
 }
 
@@ -119,6 +130,7 @@ function validate(document: server.TextDocument): void {
 
 		// configure jscs module
 		checker.registerDefaultRules();
+
 		checker.configure(config || options);
 
 		let diagnostics: server.Diagnostic[] = [];
@@ -136,6 +148,7 @@ function validate(document: server.TextDocument): void {
 		}
 
 		//return connection.sendDiagnostics({ uri, diagnostics });
+
 		connection.sendDiagnostics({ uri, diagnostics });
 	} catch (err) {
 		let message: string = null;
@@ -145,6 +158,7 @@ function validate(document: server.TextDocument): void {
 
 			throw new Error(message);
 		}
+
 		throw err;
 	}
 }
@@ -179,10 +193,12 @@ function getMessage(err: any, document: server.TextDocument): string {
 
 	if (typeof err.message === "string" || err.message instanceof String) {
 		result = <string>err.message;
+
 		result = result.replace(/\r?\n/g, " ");
 	} else {
 		result = `An unknown error occured while validating file: ${server.Files.uriToFilePath(document.uri)}`;
 	}
+
 	return result;
 }
 
@@ -248,11 +264,13 @@ connection.onDidChangeConfiguration((params) => {
 	flushConfigCache();
 
 	settings = params.settings;
+
 	validateMany(documents.all());
 });
 
 connection.onDidChangeWatchedFiles((params) => {
 	flushConfigCache();
+
 	validateMany(documents.all());
 });
 

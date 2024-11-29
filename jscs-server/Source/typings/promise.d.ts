@@ -35,6 +35,7 @@ interface Thenable<R> {
 		onfulfilled?: (value: R) => TResult | Thenable<TResult>,
 		onrejected?: (reason: any) => TResult | Thenable<TResult>,
 	): Thenable<TResult>;
+
 	then<TResult>(
 		onfulfilled?: (value: R) => TResult | Thenable<TResult>,
 		onrejected?: (reason: any) => void,
@@ -55,6 +56,7 @@ interface Promise<T> extends Thenable<T> {
 		onfulfilled?: (value: T) => TResult | Thenable<TResult>,
 		onrejected?: (reason: any) => TResult | Thenable<TResult>,
 	): Promise<TResult>;
+
 	then<TResult>(
 		onfulfilled?: (value: T) => TResult | Thenable<TResult>,
 		onrejected?: (reason: any) => void,
